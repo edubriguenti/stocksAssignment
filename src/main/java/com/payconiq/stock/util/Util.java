@@ -35,6 +35,6 @@ public final class Util {
     }
 
     public static int getNextId(){
-        return ++currentId;
+        return currentId++;
     }
 }

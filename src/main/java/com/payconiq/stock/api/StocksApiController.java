@@ -24,9 +24,8 @@ public class StocksApiController implements StocksApi {
     @Autowired
     StockService stockService;
 
-    public ResponseEntity<Void> createStock(@ApiParam(value = "") @Valid @RequestBody Stock body) {
-        stockService.createStock(body);
-        return new ResponseEntity<Void>(HttpStatus.CREATED);
+    public ResponseEntity<Stock> createStock(@ApiParam(value = "") @Valid @RequestBody Stock body) {
+        return new ResponseEntity<Stock>(stockService.createStock(body), HttpStatus.CREATED);
     }
 
     public ResponseEntity<List<Stock>> getAllStocks() {

@@ -54,7 +54,7 @@ public class Stock   {
    * Name of the product
    * @return name
   **/
-  @ApiModelProperty(example = "Book", value = "Name of the product")
+  @ApiModelProperty(example = "GOGL34", value = "Name of the product")
 
   public String getName() {
     return name;
@@ -73,7 +73,7 @@ public class Stock   {
    * Price of the product
    * @return currentPrice
   **/
-  @ApiModelProperty(example = "10.22", value = "Price of the product")
+  @ApiModelProperty(example = "10.22", value = "Price of the stock")
 
   @Valid
   public BigDecimal getCurrentPrice() {

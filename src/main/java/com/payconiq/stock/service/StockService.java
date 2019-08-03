@@ -6,6 +6,7 @@ import com.payconiq.stock.util.Util;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,7 @@ public class StockService {
     private Map<Integer, Stock> stocks;
 
     @PostConstruct
-    private void init(){
+    private void init() {
         stocks = Util.getStockDatabase();
     }
 
@@ -28,11 +29,16 @@ public class StockService {
         if (stock.getCurrentPrice() == null || stock.getName() == null)
             throw new IllegalArgumentException("Stock requires price and name");
 
-        Stock newlyCreatedStock = stocks.put(Util.getNextId(), stock);
-        return newlyCreatedStock;
+        stock.setId(Util.getNextId());
+        stock.setLastUpdate(LocalDateTime.now().toString());
+        stocks.put(stock.getId(), stock);
+        return stock;
     }
 
     public Stock getStockById(Integer id) {
+        if (!stocks.containsKey(id))
+            throw new StockNotFoundException("Stock not found");
+
         return stocks.get(id);
     }
 

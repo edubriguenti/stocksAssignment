@@ -1,6 +1,7 @@
 package com.payconiq.stock;
 
 import com.payconiq.stock.api.StocksApi;
+import com.payconiq.stock.exception.StockNotFoundException;
 import com.payconiq.stock.model.Stock;
 import com.payconiq.stock.util.Util;
 import org.junit.Test;
@@ -41,15 +42,17 @@ public class StocksApiIntegrationTests {
         Stock stock = new Stock();
         stock.setName("AMZO34");
         stock.setCurrentPrice(BigDecimal.TEN);
-        ResponseEntity<Void> response = api.createStock(stock);
+        ResponseEntity<Stock> response = api.createStock(stock);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        Stock body = response.getBody();
+        assertEquals("AMZO34", body.getName());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldReturnExceptionIFNoPriceIsSent() throws Exception {
         Stock stock = new Stock();
         stock.setName("GOGL34");
-        ResponseEntity<Void> response = api.createStock(stock);
+        ResponseEntity<Stock> response = api.createStock(stock);
     }
 
     @Test
@@ -59,6 +62,13 @@ public class StocksApiIntegrationTests {
         Stock stock = response.getBody();
         assertEquals("NFLX1", stock.getName());
     }
+
+
+    @Test(expected = StockNotFoundException.class)
+    public void shouldReturnExceptionWhenNotFound() throws Exception {
+        ResponseEntity<Stock> response = api.getStockById(50000);
+    }
+
 
     @Test
     public void shouldUpdateAStockPrice() throws Exception {

@@ -20,14 +20,14 @@ import java.util.List;
 @Api(value = "stocks", description = "the stocks API")
 public interface StocksApi {
 
-    @ApiOperation(value = "Create a stock", nickname = "createStock", notes = "", tags = {"stock",})
+    @ApiOperation(value = "Create a stock", nickname = "createStock", notes = "", tags = {"stock",}, response = Stock.class)
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Created"),
             @ApiResponse(code = 400, message = "Invalid Input")})
     @RequestMapping(value = "/stocks",
             consumes = {"application/json"},
             method = RequestMethod.POST)
-    ResponseEntity<Void> createStock(@ApiParam(value = "") @Valid @RequestBody Stock body);
+    ResponseEntity<Stock> createStock(@ApiParam(value = "") @Valid @RequestBody Stock body);
 
 
     @ApiOperation(value = "Get all stocks", nickname = "getAllStocks", notes = "Get a list of stocks", response = Stock.class, responseContainer = "List", tags = {"stock",})
